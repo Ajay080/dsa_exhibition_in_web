@@ -1,8 +1,8 @@
 import Dashboard from "@/pages/Dashboard";
 import Arrays from "@/pages/Arrays";
 import Strings from "@/pages/Strings";
-import ArraySolution from "@/pages/solutions/ArraySolution";
-import StringSolution from "@/pages/solutions/StringSolution";
+import ArraySolution from "../pages/solutions/Array";
+import StringSolution from "@/pages/solutions/String";
 
 export const routes = [
   { path: "/dashboard", element: <Dashboard />, label: "Dashboard" },
