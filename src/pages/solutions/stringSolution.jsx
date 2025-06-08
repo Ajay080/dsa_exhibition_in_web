@@ -1,57 +1,38 @@
+// src/pages/solutions/StringSolution.jsx
 import React from "react";
 import { useParams, Link } from "react-router-dom";
-
-const solutionsData = {
-  "reverse-string": {
-    title: "Reverse String",
-    description: "Reverse a string in-place using two pointers.",
-    code: `function reverseString(s) {
-  let left = 0, right = s.length - 1;
-  while (left < right) {
-    [s[left], s[right]] = [s[right], s[left]];
-    left++;
-    right--;
-  }
-}`,
-  },
-  "valid-palindrome": {
-    title: "Valid Palindrome",
-    description: "Check if a string is a palindrome ignoring non-alphanumeric characters.",
-    code: `function isPalindrome(s) {
-  s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
-  return s === s.split('').reverse().join('');
-}`,
-  },
-  // Add more string questions here...
-};
+import { questionBank } from "@/data/questionsData";
 
 export default function StringSolution() {
   const { questionId } = useParams();
+  const question = questionBank.strings.find((q) => q.id === questionId);
 
-  const solution = solutionsData[questionId];
-
-  if (!solution) {
+  if (!question) {
     return (
-      <div className="p-6">
-        <h2 className="text-2xl font-bold mb-4">Solution Not Found</h2>
-        <p>The solution for this question does not exist.</p>
-        <Link to="/strings" className="mt-4 inline-block text-blue-600 hover:underline">
-          Back to Strings Questions
-        </Link>
+      <div className="p-6 text-center text-red-600 font-semibold">
+        Solution not found.
+        <div className="mt-4">
+          <Link to="/strings" className="text-blue-600 hover:underline">
+            ← Back to Strings
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto bg-white rounded shadow">
-      <h2 className="text-3xl font-bold mb-4">{solution.title}</h2>
-      <p className="mb-6">{solution.description}</p>
-      <pre className="bg-gray-100 p-4 rounded overflow-auto">
-        <code>{solution.code}</code>
-      </pre>
-      <Link to="/strings" className="mt-6 inline-block text-blue-600 hover:underline">
-        Back to Strings Questions
+    <div className="max-w-3xl mx-auto p-6">
+      <Link
+        to="/strings"
+        className="text-blue-600 hover:underline text-sm inline-block mb-4"
+      >
+        ← Back to Strings
       </Link>
+      <h1 className="text-2xl font-bold mb-2">{question.title}</h1>
+      <p className="text-gray-600 mb-4">{question.description}</p>
+      <pre className="bg-gray-900 text-green-200 text-sm p-4 rounded-lg overflow-x-auto">
+        <code>{question.code}</code>
+      </pre>
     </div>
   );
 }

@@ -4,8 +4,6 @@ import { Menu, X } from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { routes } from "@/utils/routes";
-// import Login from "@/pages/Login";
-// import Header from "@/components/Header";
 
 const Layout = () => {
   const location = useLocation();
@@ -14,31 +12,29 @@ const Layout = () => {
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-  // Show login page for root "/"
   if (location.pathname === "/") {
     return (
       <Routes>
+        {/* Replace with actual Login component if you have */}
         {/* <Route path="/" element={<Login />} /> */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     );
   }
 
-  // Mobile topbar with hamburger menu
   const MobileTopbar = () => (
     <div className="bg-gray-900 text-white p-4 flex items-center justify-between md:hidden">
       <h1 className="text-lg font-bold">DSA Exhibition</h1>
-      <button onClick={toggleSidebar} aria-label="Toggle sidebar">
+      <button onClick={toggleSidebar}>
         {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
     </div>
   );
 
-  // Sidebar component with links
   const AppSidebar = () => (
     <>
       <div
-        className={`fixed top-0 left-0 z-40 h-screen w-64 bg-gray-900 text-white p-6 transition-transform duration-300 ease-in-out
+        className={`fixed top-0 left-0 z-40 h-full w-64 bg-gray-900 text-white p-6 transition-transform duration-300 ease-in-out
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0 md:static md:block`}
       >
@@ -47,7 +43,6 @@ const Layout = () => {
           <button
             onClick={toggleSidebar}
             className="md:hidden text-gray-400 hover:text-white"
-            aria-label="Close sidebar"
           >
             <X className="w-5 h-5" />
           </button>
@@ -55,12 +50,14 @@ const Layout = () => {
 
         <nav className="flex flex-col space-y-4 text-lg">
           {routes
-            .filter((route) => route.label) // show only routes with label
+            .filter(route => route.label) // only show routes with label
             .map((route, index) => (
               <Link
                 key={index}
                 to={route.path}
-                className="hover:bg-gray-800 p-2 rounded transition-colors"
+                className={`block p-2 rounded hover:bg-gray-800 ${
+                  location.pathname.startsWith(route.path) ? "bg-gray-700" : ""
+                }`}
                 onClick={() => setSidebarOpen(false)}
               >
                 {route.label}
@@ -69,12 +66,10 @@ const Layout = () => {
         </nav>
       </div>
 
-      {/* Mobile overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-40 z-30 md:hidden"
           onClick={toggleSidebar}
-          aria-hidden="true"
         />
       )}
     </>
@@ -85,6 +80,7 @@ const Layout = () => {
       <MobileTopbar />
       <AppSidebar />
       <div className="flex flex-col flex-1">
+        {/* Optional Header */}
         {/* <Header /> */}
         <main className={`flex-1 overflow-auto bg-gray-50 ${isMobile ? "p-2" : "p-6"}`}>
           <Routes>
